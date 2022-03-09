@@ -2,17 +2,20 @@ NAME	=	push_swap
 
 SRC =		push_swap.c
 
+INC_LIB_PATHS := -I libft/src/
+LIBS := libft/src/libft.a \
+
 OBJECTS	=	$(SRC:.c=.o)
-CFLAGS	=	-Wall -Wextra -Werror
+CFLAGS	=	-Wall -Wextra -Werror $(INC_LIB_PATHS)
 CC		=	gcc
 
 all: $(NAME)
 
 $(NAME): $(OBJECTS)
-	$(CC) -Llibft -lft $(OBJECTS) -o $(NAME)
+	$(CC) $(OBJECTS) $(LIBS) -o $(NAME)
 
 %.o: %.c
-	$(CC) -Ilibft -c $(CFLAGS) $< -o $@
+	$(CC) -c $(CFLAGS) $< -o $@
 
 clean:
 	$(RM) $(OBJECTS)
