@@ -14,15 +14,15 @@
 NAME	=		push_swap
 
 SRC =			push_swap.c			\
-				rules.c				\
-				more_rules.c		\
-				most_rules.c		\
-				sort_small.c		\
-				sort_four_five.c	\
-				sort_big.c			\
-				sort_index.c 		\
-				utils.c				\
-				utils_str.c
+			rules.c				\
+			more_rules.c		\
+			most_rules.c		\
+			sort_small.c		\
+			sort_four_five.c	\
+			sort_big.c			\
+			sort_index.c 		\
+			utils.c				\
+			utils_str.c
 
 LIB= 			./libft/libft.a
 
@@ -30,7 +30,7 @@ HEADER =		push_swap.h
 OBJECTS	=		$(SRC:.c=.o)
 INCLUDE =		-I.
 CFLAGS	=		-Wall -Wextra -Werror
-CC		=		gcc
+CC		=	gcc
 
 all: $(NAME)
 
