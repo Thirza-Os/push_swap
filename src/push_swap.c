@@ -1,64 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   push_swap.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tosinga <tosinga@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/02/02 18:31:14 by tosinga       #+#    #+#                 */
+/*   Updated: 2022/02/03 16:29:11 by tosinga       ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "push_swap.h"
 #include "libft.h"
-#include <stdio.h>
 
-typedef struct s_stacks {
-	int	*stack_a;
-	int	*stack_b;
-}	t_stacks;
-
-t_list	*ft_swap_a(t_stacks *stacks, t_list *ret_list)
+int	ft_check_duplicates(char *argv[], int argc)
 {
-	int	*temp;
-
-	ret_list = ft_lstnew("sa");
-	temp = &stacks->stack_a[0];
-	stacks->stack_a[0] = stacks->stack_a[1];
-	stacks->stack_a[1] = *temp;
-	while(ret_list)
-	{
-	printf("%s", ret_list->content);
-	ret_list = ret_list->next;
-	}
-	return(ret_list);
-}
-
-void	ft_sort_small(t_stacks *stacks, int count)
-{
-	t_list	ret_list;
-
-	if (count == 2)
-		ft_swap_a(stacks, &ret_list);
-}
-
-int	swap_strncmp(const char *s1, const char *s2)
-{
-	size_t	a;
-
-	a = 0;
-	while (s1[a] || s2[a])
-	{
-		if (s1[a] != s2[a])
-			return ((unsigned char)s1[a] - (unsigned char)s2[a]);
-		a++;
-	}
-	return ((unsigned char)s1[a] - (unsigned char)s2[a]);
-}
-
-int	ft_check_duplicates(char *argv[])
-{
-	int a;
+	int	a;
 	int	b;
 
 	a = 1;
-	b = 2;
-	while (argv[a])
+	while (a + 1 < argc)
 	{
-		while(argv[b])
+		b = a + 1;
+		while (argv[b])
 		{
-		if (swap_strncmp(argv[a], argv[b]) == 0)
+			if (ft_strcmp(argv[a], argv[b]) == 0)
 			{
 				ft_putstr_fd("Error\n", 1);
-				exit(0);
+				exit(1);
 			}
 			b++;
 		}
@@ -67,108 +36,71 @@ int	ft_check_duplicates(char *argv[])
 	return (0);
 }
 
-int	ft_check(long i)
-{
-	if (i < INT_MIN || i > INT_MAX)
-	{
-		ft_putstr_fd("Error\n", 1);
-		exit(0);
-	}
-	return (1);
-}
-
-int	atoi_stack(char *str, int *rs)
-{
-	long	i;
-	int		c;
-
-	i = 0;
-	c = 1;
-	if (*str == '-')
-	{
-		c = -1;
-		str++;
-	}
-	while (*str)
-		if (ft_isdigit(*str))
-		{
-			i = (i * 10 + *str - '0');
-			str++;
-		}
-		else
-		{
-			ft_putstr_fd("Error\n", 1);
-			exit(0);
-		}
-	i *= c;
-	if((ft_check(i) == 1))
-		*rs = i;
-	return(0);
-}
-
-void	*ft_malloc_check(void *s)
-{
-	if (s == 0)
-		exit(0);
-	return (s);
-}
-
-int	ft_make_array(t_stacks *stacks, char *argv[], int count)
+int	ft_make_array(t_stacks *stacks, char *argv[])
 {
 	int	i;
 
 	i = 0;
-	stacks->stack_a = (int *)ft_malloc_check(malloc(count * sizeof(int)));
-	stacks->stack_b = (int *)ft_malloc_check(malloc(count * sizeof(int)));
-	while (count > i)
+	stacks->stack_a = (int *)ft_malloc_check(malloc \
+	(stacks->count_a * sizeof(int)));
+	stacks->stack_b = (int *)ft_malloc_check(malloc \
+	(stacks->count_a * sizeof(int)));
+	while (stacks->count_a > i)
 	{
-		if(atoi_stack(argv[i + 1], &stacks->stack_a[i]))
-			exit (0);
+		atoi_stack(argv[i + 1], &stacks->stack_a[i]);
 		i++;
 	}
 	return (0);
 }
 
-int	ft_check_order(t_stacks *stacks, int count)
+int	ft_check_order(t_stacks *stacks)
 {
 	int	i;
-	int a;
+	int	a;
 
 	i = 0;
 	a = 0;
-	while (stacks->stack_a[i + 1])
+	while (i < stacks->count_a - 1)
 	{
 		if (stacks->stack_a[i] < stacks->stack_a[i + 1])
 			a++;
 	i++;
 	}
-	if (a + 1 == count)
-		{
-		ft_putstr_fd("in order\n", 1);
-		exit(0);
-		}
-return (0);
+	if (a + 1 == stacks->count_a)
+		exit(1);
+	return (0);
+}
+
+void	ft_str_input(char *argv[], t_stacks *stacks)
+{
+	argv = ft_split(argv[1], ' ');
+	stacks->count_a = ft_count_input(argv);
+	ft_check_duplicates_str(argv, stacks->count_a);
+	ft_make_array_str(stacks, argv);
+	ft_free(argv);
 }
 
 int	main(int argc, char *argv[])
 {
 	t_stacks	stacks;
-	int			count;
 
-	count = argc - 1;
+	stacks.count_a = argc - 1;
+	stacks.count_b = 0;
 	if (argc < 1)
+		exit(1);
+	if (argc == 2)
+		ft_str_input(argv, &stacks);
+	else
 	{
-		ft_putstr_fd("Error\n", 1);
-		exit (0);
+		ft_check_duplicates(argv, argc);
+		ft_make_array(&stacks, argv);
 	}
-	ft_check_duplicates(argv);
-	ft_make_array(&stacks, argv, count);
-	ft_check_order(&stacks, count);
-	if (count <= 5)
-		ft_sort_small(&stacks, count);
-	// if (count > 5)
-		// ft_sort_big(&stacks, count);
-	//ft_free(stack_a);
-	//ft_free(stack_B);
+	ft_check_order(&stacks);
+	if (stacks.count_a <= 5)
+		ft_sort_small(&stacks);
+	else
+		ft_sort_big(&stacks);
+	free(stacks.stack_a);
+	free(stacks.stack_b);
 	return (0);
 }
