@@ -11,26 +11,27 @@
 # **************************************************************************** #
 
 
-NAME	=		push_swap
+NAME	=	push_swap
 
-SRC	=		push_swap.c		\
-			rules.c			\
-			more_rules.c		\
-			most_rules.c		\
-			sort_small.c		\
-			sort_four_five.c	\
-			sort_big.c		\
-			sort_index.c 		\
-			utils.c			\
-			utils_str.c
+SRC	    =	src/push_swap.c			\
+			src/rules.c				\
+			src/more_rules.c		\
+			src/most_rules.c		\
+			src/sort_small.c		\
+			src/sort_four_five.c	\
+			src/sort_big.c			\
+			src/sort_index.c    	\
+			src/utils.c				\
+			src/utils_str.c
 
-LIB	= 		./libft/libft.a
+LIB	    =   ./libs/libft/src/libft.a
 
-HEADER	=		push_swap.h
-OBJECTS	=		$(SRC:.c=.o)
-INCLUDE =		-I.
-CFLAGS	=		-Wall -Wextra -Werror
-CC	=		gcc
+LIB_HEADERS = -I./libs/libft/src/
+HEADER	=	./include/push_swap.h
+OBJECTS	=	$(SRC:.c=.o)
+INCLUDE =	-I include $(LIB_HEADERS)
+CFLAGS	=	-Wall -Wextra -Werror
+CC    	=	gcc
 
 all: $(NAME)
 
@@ -38,7 +39,7 @@ $(LIB):
 	@$(MAKE) -s -C $(dir $(LIB))
 	@echo "libft maked"
 
-$(NAME):	$(OBJECTS) $(HEADER) $(LIB)
+$(NAME):$(OBJECTS) $(HEADER) $(LIB)
 	$(CC) $(CFLAGS) $(INCLUDE) $(LIB) -o $(NAME) $(OBJECTS)
 	@echo "maked"
 
