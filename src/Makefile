@@ -14,19 +14,19 @@
 NAME	=	push_swap
 
 SRC	    =	src/push_swap.c			\
-			src/rules.c				\
-			src/more_rules.c		\
-			src/most_rules.c		\
-			src/sort_small.c		\
+			src/rules.c		\
+			src/more_rules.c	\
+			src/most_rules.c	\
+			src/sort_small.c	\
 			src/sort_four_five.c	\
-			src/sort_big.c			\
+			src/sort_big.c		\
 			src/sort_index.c    	\
-			src/utils.c				\
+			src/utils.c		\
 			src/utils_str.c
 
 LIB	    =   ./libs/libft/src/libft.a
 
-LIB_HEADERS = -I./libs/libft/src/
+LIB_HEADERS = 	-I./libs/libft/src/
 HEADER	=	./include/push_swap.h
 OBJECTS	=	$(SRC:.c=.o)
 INCLUDE =	-I include $(LIB_HEADERS)
